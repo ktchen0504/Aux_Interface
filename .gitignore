@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+
+# production
+/public/src
+/build
+
+# venv
+/Script/venv
+
+#backup
+/backup
+
+package-lock.json
