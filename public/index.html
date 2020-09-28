@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AuxUI</title>
+	<link type="text/css" rel="stylesheet" href = "basic-style.css" media="all">
+	<link  type="shortcut icon", rel="icon" href="favicon.ico">
+	<style>
+		body{
+			background:rgb(38, 38, 38);
+		}
+	</style>
+</head>
+<body>
+	<div class = "wrapper">
+		<div class = "canvas-div">
+			<canvas id="main-canvas"></canvas>
+		</div>
+		<div class = "button-div">
+			<button id = "e1" class = "button">Event 1</button>
+			<button id = "e2" class = "button">Event 2</button>
+			<button id = "e3" class = "button">Event 3</button>
+			<button id = "hide" class = "button">Off</button>
+		</div>
+	</div>
+	
+	<script src = "socket.io/socket.io.js"></script>
+	<script type="text/javascript" src = "./animate.js">
+		
+		/*const canvas = document.getElementById('main-canvas');
+		const ctx = canvas.getContext('2d');
+
+		canvas.width = canvas.scrollWidth;
+		canvas.height = canvas.scrollHeight;
+		
+		//ctx.fillStyle = "rgb(255,200,200)";
+		//ctx.fillRect(10,10, 100, 100);
+
+		//wrap drawing operations in a function
+		function draw(ctx, image) {
+			
+			if(!image.complete) {
+				setTimeout(function() {
+					draw(ctx, image);
+				}, 50);
+				return;
+			}
+			ctx.drawImage(image, canvas.width/2-90, 20, 180, 140);
+		}
+
+		const image = new Image();
+		image.src = './ICON_design/brake.png'
+
+		draw(ctx, image);*/
+
+	</script>	
+</body>
+</html>
