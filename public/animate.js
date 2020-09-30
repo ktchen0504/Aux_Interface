@@ -41,47 +41,7 @@ const act_icon_set = [
   {num:1, items:[icon[8].dir, icon[8].dir, icon[8].dir, icon[8].dir]}
 ]
 
-const panel_width = (canvas.width-260)/2;
-const panel_height = (canvas.height-50);
-
-// explain icon center y coordinate;
-const icon_size = panel_width/5 + 25 ;
-console.log(icon_size); 
-const posX = [125, panel_width - (icon_size) + 75, panel_width - (icon_size) + 75, 125];
-const posY = [85, 85, panel_height - icon_size + 25, panel_height - icon_size + 25];
-
-const radar_size = panel_width *90/100;
-const rad_posX = 100+((panel_width - radar_size)/2);
-const rad_posY = 50+((panel_height - radar_size)/2);
-
-const act_sizeX = panel_width * 75/100;
-const act_sizeY = act_sizeX * 0.8;
-const act_posX = panel_width + 200 + (panel_width - act_sizeX)/2;
-const act_posY = 50 + (panel_height - act_sizeY)/2;
-
-
-// upRect(c, (canvas.width-1000)/2+64, 20, 200, 30, 15, 1);
-// upRect(c, (canvas.width-1000)/2+406, 20, 200, 30, 15, 2);
-// upRect(c, (canvas.width-1000)/2+739, 20, 200, 30, 15, 3);
-backPanel(c, 100, 50, panel_width, panel_height, 1);
-backPanel(c, panel_width+200, 50, panel_width, panel_height, 2);
-
-// roundedRect(c, (canvas.width-1000)/2+64, 20, 200, 200, 15);
-// roundedRect(c, (canvas.width-1000)/2+406, 20, 200, 200, 15);
-// roundedRect(c, (canvas.width-1000)/2+739, 20, 200, 200, 15);
-
-// drawbackgroundCircle(c, (canvas.width-1000)/2+164, 126, 80, 0);
-// drawbackgroundCircle(c, (canvas.width-1000)/2+504, 126, 80, 0);
-// drawbackgroundCircle(c, (canvas.width-1000)/2+838, 126, 80, 0);
-
-// drawInnerCircle(c, (canvas.width-1000)/2+164, 126, 64, 0);
-// drawInnerCircle(c, (canvas.width-1000)/2+504, 126, 64, 0);
-// drawInnerCircle(c, (canvas.width-1000)/2+838, 126, 64, 0);
-
-// icon_set from 0 to n-1; 
-//drawIcon(c, 2);
-
-function backPanel(ctx, x, y, width, height, colorset) {
+function backgroundPanel(ctx, x, y, width, height, colorset) {
   var cor = colorset;
   ctx.beginPath();
   ctx.moveTo(x, y );
@@ -203,6 +163,54 @@ function drawAction(ctx, set){
 
 //*******************************************************************//
 
+//identify window orientation
+var query = window.matchMedia("(orientation:landscape)");
+console.log("Device held " + (query.matches ? "horizontally" : "vertically"));
+
+//default 
+let panel_width = (canvas.width-260)/2;
+let panel_height = (canvas.height-50);
+
+// explain icon center y coordinate; 
+let icon_size = panel_width/5 + 25 ;
+
+let posX = [125, panel_width - (icon_size) + 75, panel_width - (icon_size) + 75, 125];
+let posY = [85, 85, panel_height - icon_size + 25, panel_height - icon_size + 25];
+
+let radar_size = panel_width *90/100;
+let rad_posX = 100+((panel_width - radar_size)/2);
+let rad_posY = 50+((panel_height - radar_size)/2);
+
+let act_sizeX = panel_width * 75/100;
+let act_sizeY = act_sizeX * 0.8;
+let act_posX = panel_width + 200 + (panel_width - act_sizeX)/2;
+let act_posY = 50 + (panel_height - act_sizeY)/2;
+
+if (query.matches) {
+  backgroundPanel(c, 100, 50, panel_width, panel_height, 1);
+  backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 2);
+} else {
+  panel_width = (canvas.width-100);
+  panel_height = (canvas.height-120)/2;
+
+  backgroundPanel(c, 50, 50, panel_width, panel_height, 1);
+  backgroundPanel(c, 50, panel_height+100, panel_width, panel_height, 2);  
+ 
+  icon_size = panel_height/4 + 30 ;
+
+  posX = [125, panel_width - (icon_size) - 25, panel_width - (icon_size) - 25, 125];
+  posY = [85, 85, panel_height - icon_size + 25, panel_height - icon_size + 25];
+  
+  radar_size = panel_width *60/100;
+  rad_posX = 50+((panel_width - radar_size)/2);
+  rad_posY = 50+((panel_height - radar_size)/2);
+  
+  act_sizeX = panel_width * 55/100;
+  act_sizeY = act_sizeX * 0.8;
+  act_posX = 50 + (panel_width - act_sizeX)/2;
+  act_posY = panel_height + 120+ (panel_height - act_sizeY)/2;
+}
+
 drawRadar(c, 0);
 drawIcon(c, 0);
 drawAction(c, 0);
@@ -213,9 +221,6 @@ socketio.on('event_connect', function(obj) {
     console.log('In client side socketio');
     canvas.style.display = "flex";
     c.globalCompositeOperation = 'source-over';
-    // drawInnerCircle(c, (canvas.width-1000)/2+164, 126, 64, 0);
-    // drawInnerCircle(c, (canvas.width-1000)/2+504, 126, 64, 0);
-    // drawInnerCircle(c, (canvas.width-1000)/2+838, 126, 64, 0);
     drawIcon(c, obj);
   } else {
     // c.fillStyle = '#3b3b3b';
@@ -236,3 +241,4 @@ const updateEv = () => {
 }
 
 updateEv();
+
