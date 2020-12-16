@@ -16,29 +16,46 @@ let mouse = {
 }
 
 const icon = [
+  //explain icon
   {id:1, dir:'/src/Exp_moveobj.png'},
   {id:2, dir:'/src/Exp_sysissue.png'},
   {id:3, dir:'/src/Exp_approachcar.png'},
   {id:4, dir:'/src/Exp_fog.png'},
-  {id:5, dir:'/src/Exp_radar_1.png'},
+  {id:5, dir:'/src/Exp_rain.png'},
+  //radar
   {id:6, dir:'/src/Exp_radar_1.png'},
-  {id:7, dir:'/src/Exp_radar_1.png'},
-  {id:8, dir:'/src/Exp_radar_1.png'}, 
-  {id:9, dir:'/src/Act_set1.png'}
+  {id:7, dir:'/src/Exp_radar_2.png'},
+  {id:8, dir:'/src/Exp_radar_3.png'},
+  {id:9, dir:'/src/Exp_radar_4.png'}, 
+  {id:10, dir:'/src/Exp_radar_6.png'},
+  {id:11, dir:'/src/Exp_radar_7.png'},
+
+  //action
+  {id:12, dir:'/src/Act_set1.png'},
+  {id:13, dir:'/src/Act_set1.png'},
+  {id:14, dir:'/src/Act_set1.png'},
+  {id:15, dir:'/src/Act_set1.png'},
+  {id:16, dir:'/src/Act_set1.png'},
+  {id:17, dir:'/src/Act_set1.png'}
 ]
 
 const icon_set = [
   {num:1, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
-  {num:2, items:[icon[1].dir, icon[2].dir, icon[3].dir, icon[0].dir]},
-  {num:3, items:[icon[3].dir, icon[0].dir, icon[1].dir, icon[2].dir]}
+  {num:2, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[4].dir]},
+  {num:3, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
+  {num:4, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
+  {num:5, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
+  {num:6, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
 ]
 
 const radar_set = [
-  {num:1, items:[icon[4].dir, icon[5].dir, icon[6].dir, icon[7].dir]}
+  {num:1, items:[icon[5].dir, icon[6].dir, icon[7].dir, icon[8].dir, 
+    icon[9].dir, icon[10].dir]}
 ]
 
 const act_icon_set = [
-  {num:1, items:[icon[8].dir, icon[8].dir, icon[8].dir, icon[8].dir]}
+  {num:1, items:[icon[11].dir, icon[12].dir, icon[13].dir, icon[14].dir, 
+    icon[15].dir,, icon[16].dir]}
 ]
 
 function backgroundPanel(ctx, x, y, width, height, colorset) {
@@ -123,17 +140,20 @@ function drawInnerCircle(ctx, x, y, radius){
   ctx.stroke();
 }
 
-function drawRadar(ctx, set) {
+console.log(radar_set.length);
+
+function drawRadar(ctx, ev) {
   var rad_img = [];
   
   // need rad_posX, rad_posY for now
   for (var j = 0; j < radar_set.length; j++) {
     rad_img[j] = new Image();   
-    rad_img[j].src = radar_set[set].items[j];
+    rad_img[j].src = radar_set[0].items[ev];
     rad_img[j].onload = (function(j) {
       ctx.drawImage(rad_img[j], rad_posX, rad_posY, radar_size, radar_size);
     }).bind(this, j); 
   };  
+
 }
 
 function drawIcon(ctx, set){
@@ -220,18 +240,24 @@ socketio.on('event_connect', function(obj) {
   if (obj != 'hide') {
     console.log('In client side socketio');
     canvas.style.display = "flex";
-    c.globalCompositeOperation = 'source-over';
+    c.globalCompositeOperation = 'source-over'; 
+    drawRadar(c, obj);
     drawIcon(c, obj);
   } else {
     // c.fillStyle = '#3b3b3b';
     // c.fillRect(0,0, canvas.width, canvas.height);
-    canvas.style.display = "none";
+    
+    //To hide canvas, use following
+    //canvas.style.display = "none";
+
+    //To clear canvas, use following
+    c.clearRect ( 0 , 0 , canvas.width , canvas.height);
   }
   
 });
 
 const updateEv = () => {
-  ['e1', 'e2', 'e3', 'hide'].forEach((id) => {
+  ['e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'hide'].forEach((id) => {
     const button = document.getElementById(id);
     button.addEventListener('click', () => {
       console.log('clicked', id);

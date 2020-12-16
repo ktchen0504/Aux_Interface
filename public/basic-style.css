@@ -23,7 +23,7 @@
     justify-content:center;
 }
 .button {
-    height:2.5rem; width: 7.5rem;
+    height:2.5rem; width: 3rem;
     top: 0; left: 0; right: 0; bottom: 0;
     border: 2px solid #fff;
     margin: 30px 10px;
@@ -33,5 +33,5 @@
     border-radius: 0.2rem;
     font: 1.05em "Open Sans Condensed", sans-serif;
     background: #3b3b3b; color: #fff;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
 }

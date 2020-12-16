@@ -13,7 +13,7 @@ first_arg = 0
 Ev_break = 1
 
 def randomEvent(*args):
-    r = random.randrange(1, 3, 1)
+    r = random.randrange(21, 26, 1) - 20
     print(f'random number {r}')
     return ('e' + str(r))
 
@@ -21,6 +21,7 @@ r = randomEvent()
 print (f'This is event: {r}')
 
 with SocketIO('localhost', 4000, LoggingNamespace) as socketIO:
+    # logstream range from 20-26
     socketIO.emit('Ev', r)
     # socketIO.wait_for_callbacks(seconds=1)
 
