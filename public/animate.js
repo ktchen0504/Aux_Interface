@@ -15,6 +15,17 @@ let mouse = {
   y : undefined
 }
 
+//*******************************************************************//
+// Specify groups. Need to change this before exp.
+// group 1 = explain, group 2 = action, group 3 = mixed
+const study_group = [
+  {group:1}, {group:2}, {group:3}
+]
+const current_group = study_group[2].group;
+console.log("this is group: "+ study_group[2].group);
+
+//*******************************************************************//
+
 const icon = [
   //explain icon
   {id:1, dir:'/src/Exp_moveobj.png'},
@@ -22,6 +33,7 @@ const icon = [
   {id:3, dir:'/src/Exp_approachcar.png'},
   {id:4, dir:'/src/Exp_fog.png'},
   {id:5, dir:'/src/Exp_rain.png'},
+
   //radar
   {id:6, dir:'/src/Exp_radar_1.png'},
   {id:7, dir:'/src/Exp_radar_2.png'},
@@ -31,12 +43,12 @@ const icon = [
   {id:11, dir:'/src/Exp_radar_7.png'},
 
   //action
-  {id:12, dir:'/src/Act_set1.png'},
-  {id:13, dir:'/src/Act_set1.png'},
-  {id:14, dir:'/src/Act_set1.png'},
-  {id:15, dir:'/src/Act_set1.png'},
-  {id:16, dir:'/src/Act_set1.png'},
-  {id:17, dir:'/src/Act_set1.png'}
+  {id:12, dir:'/src/Act_moveobj.png'},
+  {id:13, dir:'/src/Act_rain.png'},
+  {id:14, dir:'/src/Act_fog.png'},
+  {id:15, dir:'/src/Act_sysissue1.png'},
+  {id:16, dir:'/src/Act_approachcar.png'},
+  {id:17, dir:'/src/Act_sysissue2.png'}
 ]
 
 const icon_set = [
@@ -55,7 +67,7 @@ const radar_set = [
 
 const act_icon_set = [
   {num:1, items:[icon[11].dir, icon[12].dir, icon[13].dir, icon[14].dir, 
-    icon[15].dir,, icon[16].dir]}
+    icon[15].dir, icon[16].dir]}
 ]
 
 function backgroundPanel(ctx, x, y, width, height, colorset) {
@@ -75,10 +87,10 @@ function backgroundPanel(ctx, x, y, width, height, colorset) {
       break;
   }
   ctx.fillStyle = cor_set;
+  ctx.fill(); 
+  
   ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
   ctx.lineWidth = 6;
-
-  ctx.fill();  
   ctx.stroke();
 }
 
@@ -140,8 +152,6 @@ function drawInnerCircle(ctx, x, y, radius){
   ctx.stroke();
 }
 
-console.log(radar_set.length);
-
 function drawRadar(ctx, ev) {
   var rad_img = [];
   
@@ -168,13 +178,13 @@ function drawIcon(ctx, set){
   };
 };
 
-function drawAction(ctx, set){
+function drawAction(ctx, ev){
   var img = [];
 
   for (var k = 0; k < act_icon_set.length; k++) {
     
     img[k] = new Image();
-    img[k].src = act_icon_set[set].items[k];
+    img[k].src = act_icon_set[0].items[ev];
     img[k].onload = (function(k) {
       ctx.drawImage(img[k], act_posX, act_posY, act_sizeX, act_sizeY);
       }).bind(this, k); 
@@ -182,12 +192,11 @@ function drawAction(ctx, set){
 };
 
 //*******************************************************************//
-
 //identify window orientation
 var query = window.matchMedia("(orientation:landscape)");
 console.log("Device held " + (query.matches ? "horizontally" : "vertically"));
 
-//default 
+//default: landscape
 let panel_width = (canvas.width-260)/2;
 let panel_height = (canvas.height-50);
 
@@ -202,7 +211,7 @@ let rad_posX = 100+((panel_width - radar_size)/2);
 let rad_posY = 50+((panel_height - radar_size)/2);
 
 let act_sizeX = panel_width * 75/100;
-let act_sizeY = act_sizeX * 0.8;
+let act_sizeY = act_sizeX * 0.9;
 let act_posX = panel_width + 200 + (panel_width - act_sizeX)/2;
 let act_posY = 50 + (panel_height - act_sizeY)/2;
 
@@ -231,28 +240,89 @@ if (query.matches) {
   act_posY = panel_height + 120+ (panel_height - act_sizeY)/2;
 }
 
-drawRadar(c, 0);
-drawIcon(c, 0);
-drawAction(c, 0);
+//drawRadar(c, 0);
+//drawIcon(c, 0);
+//drawAction(c, 0);
 
 socketio.on('event_connect', function(obj) {
-  //c.clearRect(0, 0, canvas.width, canvas.height);
-  if (obj != 'hide') {
-    console.log('In client side socketio');
-    canvas.style.display = "flex";
-    c.globalCompositeOperation = 'source-over'; 
-    drawRadar(c, obj);
-    drawIcon(c, obj);
-  } else {
-    // c.fillStyle = '#3b3b3b';
-    // c.fillRect(0,0, canvas.width, canvas.height);
-    
-    //To hide canvas, use following
-    //canvas.style.display = "none";
 
-    //To clear canvas, use following
-    c.clearRect ( 0 , 0 , canvas.width , canvas.height);
+  //wrap with switch case
+  switch(current_group) {
+    case 1: //group explain
+      console.log("This is inside group 1");
+      if (obj != 'hide' && obj >=0) {
+        console.log('In client side socketio');
+        canvas.style.display = "flex";
+        c.globalCompositeOperation = 'source-over'; 
+        drawRadar(c, obj);
+        drawIcon(c, obj);
+      } else {  
+        //To clear canvas, use following
+        c.clearRect (50, 50, panel_width, panel_height);
+        c.rect(50, 50, panel_width, panel_height);
+        c.fillStyle = 'rgba(51, 51, 51, 1)';
+        c.fill();
+      }
+      break;
+    case 2: //group action
+      console.log("This is inside group 2");
+      if (obj != 'hide' && obj >=0) {
+        console.log('In client side socketio');
+        canvas.style.display = "flex";
+        c.globalCompositeOperation = 'source-over'; 
+        c.clearRect (act_posX, act_posY, act_sizeX, act_sizeY);
+        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        c.fillStyle = 'rgba(51, 51, 51, 1)';
+        c.fill();
+        drawAction(c, obj);
+      } else {
+        c.clearRect (act_posX, act_posY, act_sizeX, act_sizeY);
+        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        c.fillStyle = 'rgba(51, 51, 51, 1)';
+        c.fill();
+      }
+      break;
+    case 3: //group mixed
+      console.log("This is inside group 3");
+      if (obj != 'hide' && obj >=0) {
+        console.log('In client side socketio');
+        canvas.style.display = "flex";
+        c.globalCompositeOperation = 'source-over'; 
+        drawRadar(c, obj);
+        drawIcon(c, obj);
+        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        c.fillStyle = 'rgba(51, 51, 51, 1)';
+        c.fill();
+        drawAction(c, obj);
+      } else {
+        c.clearRect ( act_posX, act_posY, act_sizeX, act_sizeY);
+        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        c.fillStyle = 'rgba(51, 51, 51, 1)';
+        c.fill();
+
+        c.clearRect (50, 50, panel_width, panel_height);
+        c.rect(50, 50, panel_width, panel_height);
+        c.fillStyle = 'rgba(51, 51, 51, 1)';
+        c.fill();
+      }
+      break;
   }
+  // if (obj != 'hide') {
+  //   console.log('In client side socketio');
+  //   canvas.style.display = "flex";
+  //   c.globalCompositeOperation = 'source-over'; 
+  //   drawRadar(c, obj);
+  //   drawIcon(c, obj);
+  // } else {
+  //   // c.fillStyle = '#3b3b3b';
+  //   // c.fillRect(0,0, canvas.width, canvas.height);
+    
+  //   //To hide canvas, use following
+  //   //canvas.style.display = "none";
+
+  //   //To clear canvas, use following
+  //   c.clearRect ( 0 , 0 , canvas.width , canvas.height);
+  // }
   
 });
 
