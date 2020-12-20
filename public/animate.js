@@ -33,27 +33,28 @@ const icon = [
   {id:3, dir:'/src/Exp_approachcar.png'},
   {id:4, dir:'/src/Exp_fog.png'},
   {id:5, dir:'/src/Exp_rain.png'},
+  {id:6, dir:'/src/Exp_moveobj_2.png'},
 
   //radar
-  {id:6, dir:'/src/Exp_radar_1.png'},
-  {id:7, dir:'/src/Exp_radar_2.png'},
-  {id:8, dir:'/src/Exp_radar_3.png'},
-  {id:9, dir:'/src/Exp_radar_4.png'}, 
-  {id:10, dir:'/src/Exp_radar_6.png'},
-  {id:11, dir:'/src/Exp_radar_7.png'},
+  {id:7, dir:'/src/Exp_radar_1.png'},
+  {id:8, dir:'/src/Exp_radar_2.png'},
+  {id:9, dir:'/src/Exp_radar_3.png'},
+  {id:10, dir:'/src/Exp_radar_4.png'}, 
+  {id:11, dir:'/src/Exp_radar_6.png'},
+  {id:12, dir:'/src/Exp_radar_7.png'},
 
   //action
-  {id:12, dir:'/src/Act_moveobj.png'},
-  {id:13, dir:'/src/Act_rain.png'},
-  {id:14, dir:'/src/Act_fog.png'},
-  {id:15, dir:'/src/Act_sysissue1.png'},
-  {id:16, dir:'/src/Act_approachcar.png'},
-  {id:17, dir:'/src/Act_sysissue2.png'}
+  {id:13, dir:'/src/Act_moveobj.png'},
+  {id:14, dir:'/src/Act_rain.png'},
+  {id:15, dir:'/src/Act_fog.png'},
+  {id:16, dir:'/src/Act_sysissue1.png'},
+  {id:17, dir:'/src/Act_approachcar.png'},
+  {id:18, dir:'/src/Act_sysissue2.png'}
 ]
 
 const icon_set = [
   {num:1, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
-  {num:2, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[4].dir]},
+  {num:2, items:[icon[5].dir, icon[1].dir, icon[2].dir, icon[4].dir]},
   {num:3, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
   {num:4, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
   {num:5, items:[icon[0].dir, icon[1].dir, icon[2].dir, icon[3].dir]},
@@ -61,13 +62,13 @@ const icon_set = [
 ]
 
 const radar_set = [
-  {num:1, items:[icon[5].dir, icon[6].dir, icon[7].dir, icon[8].dir, 
-    icon[9].dir, icon[10].dir]}
+  {num:1, items:[icon[6].dir, icon[7].dir, icon[8].dir, icon[9].dir, 
+    icon[10].dir, icon[11].dir]}
 ]
 
 const act_icon_set = [
-  {num:1, items:[icon[11].dir, icon[12].dir, icon[13].dir, icon[14].dir, 
-    icon[15].dir, icon[16].dir]}
+  {num:1, items:[icon[12].dir, icon[13].dir, icon[14].dir, icon[15].dir, 
+    icon[16].dir, icon[17].dir]}
 ]
 
 function backgroundPanel(ctx, x, y, width, height, colorset) {

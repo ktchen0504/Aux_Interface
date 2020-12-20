@@ -20,6 +20,7 @@
 }
 .button-div {
     display:flex;
+    /* display:none; */
     justify-content:center;
 }
 .button {
