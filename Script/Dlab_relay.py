@@ -62,9 +62,9 @@ def receive():
                 # first_arg = 1
                 print (f'Event status is now: {Ev_stat}')
                 r = 'e'+str(Ev_stat)
-                sleeptime = 2
+                sleeptime = 1
                 # break
-            elif int(float(strdata[second_arg])) == 20:
+            elif int(float(strdata[second_arg])) <= 20:
                 Ev_stat = -1
                 print (f'Received normal event status: {Ev_stat}', file = sys.stderr)
                 r = 'hide'

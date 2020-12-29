@@ -84,14 +84,14 @@ function backgroundPanel(ctx, x, y, width, height, colorset) {
       cor_set = 'rgba(51, 51, 51, 1)';
       break;
     case 2:
-      cor_set = 'rgba(51, 51, 51, 1)';
+      cor_set = 'rgba(38, 38, 38, 1)';
       break;
   }
   ctx.fillStyle = cor_set;
   ctx.fill(); 
   
   ctx.strokeStyle = 'rgba(255, 255, 255, 1)';
-  ctx.lineWidth = 6;
+  ctx.lineWidth = 5;
   ctx.stroke();
 }
 
@@ -216,15 +216,39 @@ let act_sizeY = act_sizeX * 0.9;
 let act_posX = panel_width + 200 + (panel_width - act_sizeX)/2;
 let act_posY = 50 + (panel_height - act_sizeY)/2;
 
+let left_most_xcord = 100;
+
 if (query.matches) {
-  backgroundPanel(c, 100, 50, panel_width, panel_height, 1);
-  backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 2);
+  switch(current_group) {
+    case 1:
+      backgroundPanel(c, left_most_xcord, 50, panel_width, panel_height, 1);
+      break;
+    case 2:
+      backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 1);
+      break;
+    case 3:
+      backgroundPanel(c, left_most_xcord, 50, panel_width, panel_height, 1);
+      backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 1);
+      break;
+  }
+
 } else {
+  left_most_xcord = 50;
   panel_width = (canvas.width-100);
   panel_height = (canvas.height-120)/2;
-
-  backgroundPanel(c, 50, 50, panel_width, panel_height, 1);
-  backgroundPanel(c, 50, panel_height+100, panel_width, panel_height, 2);  
+  
+  switch(current_group) {
+    case 1:
+      backgroundPanel(c,  left_most_xcord, 50, panel_width, panel_height, 1);
+      break;
+    case 2:
+      backgroundPanel(c,  left_most_xcord, panel_height+100, panel_width, panel_height, 1); 
+      break;
+    case 3:
+      backgroundPanel(c,  left_most_xcord, 50, panel_width, panel_height, 1);
+      backgroundPanel(c,  left_most_xcord, panel_height+100, panel_width, panel_height, 1); 
+      break;
+  }
  
   icon_size = panel_height/4 + 30 ;
 
@@ -259,8 +283,8 @@ socketio.on('event_connect', function(obj) {
         drawIcon(c, obj);
       } else {  
         //To clear canvas, use following
-        c.clearRect (50, 50, panel_width, panel_height);
-        c.rect(50, 50, panel_width, panel_height);
+        c.clearRect (left_most_xcord, 50, panel_width, panel_height);
+        c.rect(left_most_xcord, 50, panel_width, panel_height);
         c.fillStyle = 'rgba(51, 51, 51, 1)';
         c.fill();
       }
@@ -271,16 +295,20 @@ socketio.on('event_connect', function(obj) {
         console.log('In client side socketio');
         canvas.style.display = "flex";
         c.globalCompositeOperation = 'source-over'; 
-        c.clearRect (act_posX, act_posY, act_sizeX, act_sizeY);
-        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
-        c.fillStyle = 'rgba(51, 51, 51, 1)';
-        c.fill();
+        c.clearRect(act_posX, act_posY, act_sizeX, act_sizeY);
+        // c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        // c.fillStyle = 'rgba(51, 51, 51, 1)';
+        // c.fill();
+        c.clearRect(left_most_xcord-10, 40, panel_width+15, panel_height+10);
+        backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 1);
         drawAction(c, obj);
       } else {
         c.clearRect (act_posX, act_posY, act_sizeX, act_sizeY);
-        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
-        c.fillStyle = 'rgba(51, 51, 51, 1)';
-        c.fill();
+        c.clearRect(left_most_xcord, 50, panel_width, panel_height);
+        backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 1);
+        // c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        // c.fillStyle = 'rgba(51, 51, 51, 1)';
+        // c.fill();
       }
       break;
     case 3: //group mixed
@@ -291,20 +319,22 @@ socketio.on('event_connect', function(obj) {
         c.globalCompositeOperation = 'source-over'; 
         drawRadar(c, obj);
         drawIcon(c, obj);
-        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
-        c.fillStyle = 'rgba(51, 51, 51, 1)';
-        c.fill();
+      
+        backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 1);
         drawAction(c, obj);
+
       } else {
-        c.clearRect ( act_posX, act_posY, act_sizeX, act_sizeY);
-        c.rect(act_posX, act_posY, act_sizeX, act_sizeY);
+        console.log(obj);
+        c.clearRect (act_posX, act_posY, act_sizeX, act_sizeY);
+        
+        c.clearRect (left_most_xcord, 50, panel_width, panel_height); 
+        c.rect(left_most_xcord, 50, panel_width, panel_height);
         c.fillStyle = 'rgba(51, 51, 51, 1)';
         c.fill();
 
-        c.clearRect (50, 50, panel_width, panel_height);
-        c.rect(50, 50, panel_width, panel_height);
-        c.fillStyle = 'rgba(51, 51, 51, 1)';
-        c.fill();
+        backgroundPanel(c, panel_width+200, 50, panel_width, panel_height, 1); //update coordinates for portrait or landscape      
+        backgroundPanel(c, left_most_xcord, 50, panel_width, panel_height, 1); //update coordinates for portrait or landscape
+
       }
       break;
   }
