@@ -10,3 +10,6 @@ The python script is used to connect D-lab data stream and relay event number (o
 
 ### Running the python client
 * Run `python Dlab_relay.py` in the second terminal or command line.
+
+### Resulting journal paper
+[Link](https://www.sciencedirect.com/science/article/abs/pii/S1369847823000190).
